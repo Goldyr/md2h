@@ -1,15 +1,8 @@
 # mark_to_html
 
-To install dependencies:
-
-```bash
+``` 
 bun install
 ```
 
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.2.5. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+### \r \n \r\n
+https://stackoverflow.com/questions/15433188/what-is-the-difference-between-r-n-r-and-n

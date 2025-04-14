@@ -11,6 +11,6 @@
   },
   "license": "MIT",
   "scripts": {
-    "dev": "bun index.ts"
+    "dev": "bun index.ts ./data/audio_ramble.md"
   }
 }
