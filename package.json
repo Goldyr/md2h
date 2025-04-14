@@ -1,0 +1,16 @@
+{
+  "name": "mark_to_html",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "bun index.ts"
+  }
+}
