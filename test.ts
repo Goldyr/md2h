@@ -1,14 +1,30 @@
-const p_testo = "And **bold**, *italics*, and even *italics and later **bold_again***. Even ~~strikethrough~~. [A link](https://markdowntohtml.com) to somewhere." +
-	"**asdasd**" +
-	"**asdasdsadas*daasdasdas**";
 
-const bold_regex = /(?<=\*{2}).+?(?=\*{2})/g
-console.log(bold_regex)
-const matchAll_result = p_testo.matchAll(bold_regex)
-matchAll_result.forEach(eachRegex_result => eachRegex_result.forEach(final_result => console.log(final_result)))
+const bold = (content: string) => {
+	return `<strong>${content}</strong>`
+}
 
+const italics = (content: string) => {
+	return `<em> ${content} </em>`
+}
 
-//const bold_regex_split = /(?<=\\* {2}).+?(?=\\* {2})/g
-//console.log(String(bold_regex_split).toString())
-//const split_result = p_testo.split(bold_regex_split)
-//console.log(split_result)
+const matchMachine = (text: string, regex: RegExp, replacing_fun: Function, replacing_param: string): string => {
+	//Array of results from every text.matchAll(regex)
+	const matches = [...text.matchAll(regex)].map(m => m[1]);
+	matches.forEach((match) => {
+		if (match != undefined) {
+			text = text.replace(replacing_param + match + replacing_param, replacing_fun(match))
+		}
+	})
+	return text
+}
+
+let text = `And **bold**, *italics*, and even *italics and later **bold_again***. Even ~~strikethrough~~. [A link](https://markdowntohtml.com) to somewhere.`;
+
+const bold_regex = /\*\*(.+?)\*\*/g
+text = matchMachine(text, bold_regex, bold, "**")
+
+const italics_regex = /\*(.+?)\*/g
+text = matchMachine(text, italics_regex, italics, "*")
+
+console.log(text)
+
