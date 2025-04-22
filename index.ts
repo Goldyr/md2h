@@ -1,4 +1,5 @@
 import Bun from "bun"
+import { h1h2orh3, p } from "./elements.ts"
 
 const readFile = async (filepath: string): Promise<string | unknown> => {
 	try {
@@ -21,71 +22,8 @@ type content_position = {
 }
 
 
-//TODO:gets a line returns if its a h1 h2 or h3
-const h1h2orh3 = (line: string): string => {
-	return 'h1'
-}
 
-const h1 = (content: string) => {
-	return `<h1> ${content} </h1>`
-}
-
-const h2 = (content: string) => {
-	return `<h2> ${content} </h2>`
-}
-
-const list = (content: Array<string>) => {
-	return `<ul>
-		${content.map((item) => `<li>${item}</li>`)}
-	</ul>`
-}
-
-const p = (content: string) => {
-	console.log("p")
-	const bold_regex = /(?<=\*{2}).+?(?=\*{2})/g
-	const matchAll_result = content.matchAll(bold_regex)
-	let boldo_instances: Array<string> = []
-	matchAll_result.forEach(eachRegex_result => eachRegex_result.forEach(final_result => boldo_instances.push(final_result)))
-
-	//let le_bold = content.split("**");
-	if (boldo_instances.length > 2)
-		for (let i = 0; i < boldo_instances.length; i++) {
-			let current_bold_line = boldo_instances[i];
-			if (typeof current_bold_line === "string") {
-				content = content.replace(current_bold_line, bold(current_bold_line))
-			}
-		}
-
-	console.log("regexp should get this between <strong> --->", boldo_instances)
-	//let le_italics = content.split("*");
-	//for (let i = 0; i < le_italics.length; i++) {
-	//	let current_bold_line = le_italics[i];
-	//	if (i !== 0 && typeof current_bold_line === "string") {
-	//		content.replace(current_bold_line, bold(current_bold_line))
-	//	}
-	//}
-
-
-	return `<p>${content}</p>`
-}
-
-const bold = (content: string) => {
-	return `<strong>${content}</strong>`
-}
-
-const italics = (content: string) => {
-	return `<em>${content}</em>`
-}
-
-const code = (content: string) => {
-	return `<span id="code">${content}</span>`
-}
-
-const link = (content: string, link: string) => {
-	return `<a href=${link}>${content}</a>`
-}
-
-const loop_text = (text: string): void => {
+export const loop_text = (text: string): void => {
 	//TODO:
 	//--- to --- = headers/tags 
 	//# is a H1 until <CR>
