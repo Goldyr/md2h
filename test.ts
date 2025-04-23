@@ -25,6 +25,7 @@ This is some basic, sample markdown.
   1. Two
   1. Three
  * More
+ 1. One more
 
 > Blockquote
 
@@ -43,12 +44,14 @@ Or an image of bears
 	The end ...
 `
 
-const bold_regex = /\*\*(.+?)\*\*/g
-text2 = matchMachine(text2, bold_regex, bold, "**")
+//const bold_regex = /\*\*(.+?)\*\*/g
+//text2 = matchMachine(text2, bold_regex, bold, "**")
+//
+//const italics_regex = /\*(.+?)\*/g
+//text2 = matchMachine(text2, italics_regex, italics, "*")
 
-const italics_regex = /\*(.+?)\*/g
-text2 = matchMachine(text2, italics_regex, italics, "*")
-
-console.log(text2)
-
-//const possible_regex_list = /(?!(.+\*$\R))\*((.+)(\R)){1,}.+/g
+//const possible_regex_list1 = /(?!(.+\*$\R))\*((.+)(\R)){1,}.+/g
+//const possible_regex_list2 = /\*((.+)(\R)){1,}.+/g
+const possible_regex_list = /\*((.+)(\n)){1,}.+/g
+const matches = [...text2.matchAll(possible_regex_list)].map(m => m[0])
+console.log(matches)
