@@ -12,10 +12,11 @@ export const h2 = (content: string) => {
 	return `<h2> ${content} </h2>`
 }
 
-export const list = (content: Array<string>) => {
-	return `<ul>
-		${content.map((item) => `<li>${item}</li>`)}
-	</ul>`
+export const list = (items: Array<string>) => {
+	let li = "\n"
+	//\t = tab \n for end of line
+	items.forEach((item) => li += `\t<li>${item}</li> \n`)
+	return `<ul>${li}</ul>`
 }
 
 export const p = (content: string) => {

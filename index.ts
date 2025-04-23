@@ -37,8 +37,8 @@ export const loop_text = (text: string): void => {
 	//Some os uses \r some \n some \r\n
 	//https://stackoverflow.com/questions/15433188/what-is-the-difference-between-r-n-r-and-n
 
-	text = text.replaceAll("\r\n", "\r")
-	text = text.replaceAll("\n", "\r")
+	text = text.replaceAll("\r\n", "\n")
+	text = text.replaceAll("\r", "\n")
 
 	const raw_tags: Array<string> = []
 	if (text.match("---") != null) {
@@ -49,7 +49,7 @@ export const loop_text = (text: string): void => {
 		}
 	}
 
-	let lines: Array<string> = text.split("\r")
+	let lines: Array<string> = text.split("\n")
 	console.log("length: ", lines.length)
 
 	const arr_h1: Array<content_position> = []
