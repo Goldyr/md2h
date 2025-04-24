@@ -15,7 +15,7 @@ export const h2 = (content: string) => {
 export const list = (items: Array<string>) => {
 	let li = "\n"
 	//\t = tab \n for end of line
-	items.forEach((item) => li += `\t<li>${item}</li> \n`)
+	items.forEach((item) => li += `\t<li>${item.replace("*", "")}</li> \n`)
 	return `<ul>${li}</ul>`
 }
 
@@ -60,9 +60,15 @@ export const code = (content: string) => {
 	return `<span id="code">${content}</span>`
 }
 
-export const link = (content: string, link: string) => {
-	return `<a href=${link}>${content}</a>`
+//[example](https://youtu.be/ofp-PxQCAok)
+export const link = (title: string, link: string) => {
+	return `<a href=${link.replace("(", `"`).replace(")", `"`)}>${title.replace("[", "").replace("]", "")}</a>`
 }
 
+
+//![example](https://pbs.twimg.com/media/Gfo7bqPbUAA675b?format=jpg&name=small)
+export const img = (title: string, link: string) => {
+	return `<img src=${link.replace("(", `"`).replace(")", `"`)} alt=${title.replace("[", `"`).replace("]", `"`)}>`
+}
 
 export default {}
