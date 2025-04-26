@@ -57,6 +57,8 @@ export const italics = (content: string) => {
 }
 
 export const code = (content: string) => {
+	//returns text before the first \n, detects lang?
+	//const lang = (content.substring(0, content.search("\n")))
 	return `<span id="code">${content}</span>`
 }
 
