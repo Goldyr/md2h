@@ -42,6 +42,7 @@ const replace_text_with_links = (text: string, regex: RegExp): string => {
 
 let stupid_string = "```js\n" + "var foo = 'bar';\n" + "\n" + "function baz(s) {\n" + "        return foo + ':' + s;\n" + "}\n" + "```"
 let stupid_string2 = "```rust\n" + "var foo = 'bar';\n" + "\n" + "function baz(s) {\n" + "        return foo + ':' + s;\n" + "}\n" + "```"
+let stupid_string3 = "```" + "var foo = 'bar';\n" + "\n" + "function baz(s) {\n" + "        return foo + ':' + s;\n" + "}\n" + "```"
 let text = `And **bold**, *italics*, and even *italics and later **bold_again***. Even ~~strikethrough~~. [A link](https://markdowntohtml.com) to somewhere.`;
 let text2 = `
 # Sample Markdown
@@ -67,7 +68,9 @@ ${stupid_string}
 
 ${stupid_string2}
 
-Or inline code like ${`var foo = 'bar'; `}.
+${stupid_string3}
+
+Or inline code like ${"`var foo = 'bar'; `"}.
 
 Or an image of bears
 
@@ -95,6 +98,11 @@ text2 = replace_text_with_links(text2, link_regex);
 
 //const matches = [...text2.matchAll(code_regex)].map(m => { return m[0] });
 //matches.forEach(match => console.log(match))
-const code_regex = /\`{3}([\s\S]*?)\`{3}/g
-text2 = replace_text_with_element(text2, code_regex, code, "```")
+const code_regex = /\`{3}([\s\S]*?)\`{3}/g;
+text2 = replace_text_with_element(text2, code_regex, code, "```");
+
+//Doesnt get the lang detection like multiline
+const singleline_code_regex = /\`{1}(.+)\`{1}/g;
+text2 = replace_text_with_element(text2, singleline_code_regex, code, "`");
+
 console.log(text2)
