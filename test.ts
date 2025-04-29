@@ -1,4 +1,4 @@
-import { bold, italics, list, link, img, code, h1, h2, h3 } from "./elements.ts"
+import { bold, italics, list, link, img, code, h1, h2, h3, quote, p } from "./elements.ts"
 
 const replace_text_with_element = (text: string, regex: RegExp, replacing_fun: Function, replacing_param: string): string => {
 	//Array of results from every text.matchAll(regex)
@@ -8,10 +8,11 @@ const replace_text_with_element = (text: string, regex: RegExp, replacing_fun: F
 		//	matches.forEach(match => console.log("replacingparam=" + replacing_param, match))
 		//}
 		if (match != undefined) {
-			if (replacing_param[0] == "#") {
-				console.log(match)
+			//One liners
+			if (replacing_param[0] == "#" || replacing_param == ">") {
 				text = text.replace(replacing_param + match, replacing_fun(match))
 			}
+			//Multiliners
 			else {
 				text = text.replace(replacing_param + match + replacing_param, replacing_fun(match));
 			}
@@ -30,7 +31,7 @@ const replace_text_with_list = (text: string, regex: RegExp): string => {
 };
 
 const replace_text_with_links = (text: string, regex: RegExp): string => {
-	const matches = [...text2.matchAll(link_regex)].map(m => {
+	const matches = [...text2.matchAll(regex)].map(m => {
 		return {
 			full: m[0],
 			im: m[1] == "!" ? true : false,
@@ -121,7 +122,7 @@ text2 = replace_text_with_element(text2, singleline_code_regex, code, "`");
 //const p_regex = /^(?!\W)\S*\w.+|^>.*/g
 //const p_regex = /^\w.*\S/g
 //const p_regex = /<span.+>(.*\s){1,6}<\/span>/g
-
+// selects spans content(<span[^>]*>[\s\S]*?<\/span>)
 const h1_regex = /^#(.*)/gm;
 const h2_regex = /^##(.*)/gm;
 const h3_regex = /^###(.*)/gm;
@@ -130,4 +131,43 @@ text2 = replace_text_with_element(text2, h3_regex, h3, "###");
 text2 = replace_text_with_element(text2, h2_regex, h2, "##");
 text2 = replace_text_with_element(text2, h1_regex, h1, "#");
 
-console.log(text2)
+const quote_regex = /^>(.*)/gm;
+text2 = replace_text_with_element(text2, quote_regex, quote, ">")
+
+const span_contents = (text: string): Array<string | undefined> => {
+	const spans_content = /(<span[^>]*>[\s\S]*?<\/span>)/gm
+	const matches = [...text.matchAll(spans_content)].map(m => m[1]);
+	return matches;
+}
+
+//Couldnt negate the span_contents inside regex so I extract them and negate them in js
+const peas = (text: string): string => {
+	const regex = /(^\w.*\S)/gm;
+	//Array of results from every text.matchAll(regex);
+	let matches = [...text.matchAll(regex)].map(m => m[1]);
+	const span_matches = span_contents(text);
+	const filtered_matches = matches.filter(match => {
+		for (let i = 0; i < span_matches.length; i++) {
+			const span = span_matches[i];
+			if (span == undefined || match == undefined) {
+				throw Error("err");
+			}
+			else if (span.includes(match)) {
+				return false;
+			}
+		}
+		return true
+	})
+	//console.log("matches", matches.length)
+	//console.log("matches left", filtered_matches.length);
+
+	filtered_matches.forEach((match) => {
+		if (match != undefined) {
+			text = text.replace(match, p(match))
+		}
+	})
+	return text;
+}
+
+text2 = peas(text2);
+console.log(text2);

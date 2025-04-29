@@ -19,22 +19,22 @@ export const list = (items: Array<string>) => {
 }
 
 export const p = (content: string) => {
-	console.log("p")
-	const bold_regex = /(?<=\*{2}).+?(?=\*{2})/g
-	const matchAll_result = content.matchAll(bold_regex)
-	let boldo_instances: Array<string> = []
-	matchAll_result.forEach(eachRegex_result => eachRegex_result.forEach(final_result => boldo_instances.push(final_result)))
-
-	//let le_bold = content.split("**");
-	if (boldo_instances.length > 2)
-		for (let i = 0; i < boldo_instances.length; i++) {
-			let current_bold_line = boldo_instances[i];
-			if (typeof current_bold_line === "string") {
-				content = content.replace(current_bold_line, bold(current_bold_line))
-			}
-		}
-
-	console.log("regexp should get this between <strong> --->", boldo_instances)
+	return `<p> ${content} </p>`;
+	//const bold_regex = /(?<=\*{2}).+?(?=\*{2})/g
+	//const matchAll_result = content.matchAll(bold_regex)
+	//let boldo_instances: Array<string> = []
+	//matchAll_result.forEach(eachRegex_result => eachRegex_result.forEach(final_result => boldo_instances.push(final_result)))
+	//
+	////let le_bold = content.split("**");
+	//if (boldo_instances.length > 2)
+	//	for (let i = 0; i < boldo_instances.length; i++) {
+	//		let current_bold_line = boldo_instances[i];
+	//		if (typeof current_bold_line === "string") {
+	//			content = content.replace(current_bold_line, bold(current_bold_line))
+	//		}
+	//	}
+	//
+	//console.log("regexp should get this between <strong> --->", boldo_instances)
 	//let le_italics = content.split("*");
 	//for (let i = 0; i < le_italics.length; i++) {
 	//	let current_bold_line = le_italics[i];
@@ -74,6 +74,10 @@ export const link = (title: string, link: string) => {
 //![example](https://pbs.twimg.com/media/Gfo7bqPbUAA675b?format=jpg&name=small)
 export const img = (title: string, link: string) => {
 	return `<img src=${link.replace("(", `"`).replace(")", `"`)} alt=${title.replace("[", `"`).replace("]", `"`)}>`
+}
+
+export const quote = (content: string) => {
+	return `<blockquote><p>${content.trimStart()}</p></blockquote>`
 }
 
 export default {}
