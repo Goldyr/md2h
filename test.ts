@@ -1,11 +1,20 @@
-import { bold, italics, list, link, img, code } from "./elements.ts"
+import { bold, italics, list, link, img, code, h1, h2, h3 } from "./elements.ts"
 
 const replace_text_with_element = (text: string, regex: RegExp, replacing_fun: Function, replacing_param: string): string => {
 	//Array of results from every text.matchAll(regex)
 	const matches = [...text.matchAll(regex)].map(m => m[1]);
 	matches.forEach((match) => {
+		//if (replacing_param[0] == "#") {
+		//	matches.forEach(match => console.log("replacingparam=" + replacing_param, match))
+		//}
 		if (match != undefined) {
-			text = text.replace(replacing_param + match + replacing_param, replacing_fun(match));
+			if (replacing_param[0] == "#") {
+				console.log(match)
+				text = text.replace(replacing_param + match, replacing_fun(match))
+			}
+			else {
+				text = text.replace(replacing_param + match + replacing_param, replacing_fun(match));
+			}
 		}
 	})
 	return text;
@@ -77,6 +86,8 @@ Or an image of bears
 ![bears](http://placebear.com/200/200)
 
 	The end ...
+
+### Just kidding lol
 `
 
 text2 = text2.replaceAll("\r\n", "\n");
@@ -104,5 +115,19 @@ text2 = replace_text_with_element(text2, code_regex, code, "```");
 //Doesnt get the lang detection like multiline
 const singleline_code_regex = /\`{1}(.+)\`{1}/g;
 text2 = replace_text_with_element(text2, singleline_code_regex, code, "`");
+
+//const p_regex = /^\s*(\w.+)/g;
+//const p_regex = /^(?!\W)\S*\w.+/g
+//const p_regex = /^(?!\W)\S*\w.+|^>.*/g
+//const p_regex = /^\w.*\S/g
+//const p_regex = /<span.+>(.*\s){1,6}<\/span>/g
+
+const h1_regex = /^#(.*)/gm;
+const h2_regex = /^##(.*)/gm;
+const h3_regex = /^###(.*)/gm;
+
+text2 = replace_text_with_element(text2, h3_regex, h3, "###");
+text2 = replace_text_with_element(text2, h2_regex, h2, "##");
+text2 = replace_text_with_element(text2, h1_regex, h1, "#");
 
 console.log(text2)

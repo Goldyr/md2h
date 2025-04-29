@@ -1,16 +1,15 @@
-
-//TODO:gets a line returns if its a h1 h2 or h3
-export const h1h2orh3 = (line: string): string => {
-	return 'h1'
+export const h1 = (content: string): string => {
+	return `<h1>${content.trimStart()}<h1/>`
 }
 
-export const h1 = (content: string) => {
-	return `<h1> ${content} </h1>`
+export const h2 = (content: string): string => {
+	return `<h2>${content.trimStart()}<h2/>`
 }
 
-export const h2 = (content: string) => {
-	return `<h2> ${content} </h2>`
+export const h3 = (content: string): string => {
+	return `<h3>${content.trimStart()}<h3/>`
 }
+
 
 export const list = (items: Array<string>) => {
 	let li = "\n"
