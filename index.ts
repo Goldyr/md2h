@@ -1,5 +1,6 @@
 import Bun from "bun"
-import { h1h2orh3, p } from "./elements.ts"
+import { bold, italics, list, link, img, code, h1, h2, h3, quote, p } from "./elements.ts"
+import { peas, replace_text_with_element, replace_text_with_list, replace_text_with_links } from "./test.ts"
 
 const readFile = async (filepath: string): Promise<string | unknown> => {
 	try {
@@ -16,24 +17,8 @@ const readFile = async (filepath: string): Promise<string | unknown> => {
 	}
 }
 
-type content_position = {
-	content: string,
-	position: number
-}
 
-
-
-export const loop_text = (text: string): void => {
-	//TODO:
-	//--- to --- = headers/tags 
-	//# is a H1 until <CR>
-	//## is a H2 until <CR>
-	//### is a H3 until <CR>
-	//normal text is just a p
-	//[algo](url) = <a>algo</a> with href=url
-	//``` til ``` is a block code maybe mark it with class = "code"?
-	//Copy the spaces also?
-
+export const loop_text = (text: string): string => {
 	//Some os uses \r some \n some \r\n
 	//https://stackoverflow.com/questions/15433188/what-is-the-difference-between-r-n-r-and-n
 
@@ -49,38 +34,64 @@ export const loop_text = (text: string): void => {
 		}
 	}
 
-	let lines: Array<string> = text.split("\n")
-	console.log("length: ", lines.length)
 
-	const arr_h1: Array<content_position> = []
-	const arr_h2: Array<content_position> = []
-	const arr_h3: Array<content_position> = []
-
+	//let lines: Array<string> = text.split("\n")
+	//console.log("length: ", lines.length)
 	//If you need lines
-	lines.forEach((line, i) => {
-		if (line[0] === '#') {
-			switch (h1h2orh3(line)) {
-				case "h1":
-					arr_h1.push({ content: line, position: i });
-					break;
-				case "h2":
-					arr_h2.push({ content: line, position: i });
-					break;
-				case "h3":
-					arr_h3.push({ content: line, position: i });
-					break;
-			}
-		}
+	//lines.forEach((line, i) => {
+	//If you need letters
+	//for (let i = 0; i < line.length; i++) {
+	//	let letter = line[i];
+	//	console.log(letter);
+	//}
+	//	console.log(line)
+	//})
 
-		//If you need letters
-		//for (let i = 0; i < line.length; i++) {
-		//	let letter = line[i];
-		//	console.log(letter);
-		//}
 
-		console.log(line)
-	})
-	return
+	const bold_regex = /\*\*(.+?)\*\*/g
+	text = replace_text_with_element(text, bold_regex, bold, "**")
+
+	const italics_regex = /\*(.+?)\*/g
+	text = replace_text_with_element(text, italics_regex, italics, "*")
+
+	// you can use \r or \r\n instead of \n for other tests 
+	const list_regex = /\*((.+)(\n)){1,}.+/g;
+	text = replace_text_with_list(text, list_regex);
+
+	const link_regex = /(!?)(\[.+\])(\(.+\))/g;
+	text = replace_text_with_links(text, link_regex);
+	//const matches = [...text.matchAll(link_regex)].map(m => { return { full: m[0], im: m[1] == "!" ? true : false, title: m[2], url: m[3] } });
+
+	//const matches = [...text.matchAll(code_regex)].map(m => { return m[0] });
+	//matches.forEach(match => console.log(match))
+	const code_regex = /\`{3}([\s\S]*?)\`{3}/g;
+	text = replace_text_with_element(text, code_regex, code, "```");
+
+	//Doesnt get the lang detection like multiline
+	const singleline_code_regex = /\`{1}(.+)\`{1}/g;
+	text = replace_text_with_element(text, singleline_code_regex, code, "`");
+
+	//const p_regex = /^\s*(\w.+)/g;
+	//const p_regex = /^(?!\W)\S*\w.+/g
+	//const p_regex = /^(?!\W)\S*\w.+|^>.*/g
+	//const p_regex = /^\w.*\S/g
+	//const p_regex = /<span.+>(.*\s){1,6}<\/span>/g
+	// selects spans content(<span[^>]*>[\s\S]*?<\/span>)
+	const h1_regex = /^#(.*)/gm;
+	const h2_regex = /^##(.*)/gm;
+	const h3_regex = /^###(.*)/gm;
+
+	text = replace_text_with_element(text, h3_regex, h3, "###");
+	text = replace_text_with_element(text, h2_regex, h2, "##");
+	text = replace_text_with_element(text, h1_regex, h1, "#");
+
+	const quote_regex = /^>(.*)/gm;
+	text = replace_text_with_element(text, quote_regex, quote, ">")
+
+
+	text = peas(text);
+	console.log(text);
+	return text
 }
 
 console.log("Hello via Bun!");
@@ -90,11 +101,7 @@ const my_args: any = Bun.argv.slice(2, Bun.argv.length);
 for (let i = 0; i < my_args.length; i++) {
 	let text: string | unknown = await readFile(my_args[i])
 	if (typeof (text) == "string") {
-		//files_text.push(text)
-		//loop_text(text)
-		console.log(p(text))
-		//if (typeof (files_text[i]) == "string") {
-		//}
+		console.log(loop_text(text))
 	}
 
 }
