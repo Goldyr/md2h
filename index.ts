@@ -1,5 +1,5 @@
 import Bun from "bun"
-import { bold, italics, list, link, img, code, h1, h2, h3, quote, p } from "./elements.ts"
+import { bold, italics, code, h1, h2, h3, quote } from "./elements.ts"
 import { peas, replace_text_with_element, replace_text_with_list, replace_text_with_links } from "./test.ts"
 
 const readFile = async (filepath: string): Promise<string | unknown> => {
@@ -25,6 +25,7 @@ export const loop_text = (text: string): string => {
 	text = text.replaceAll("\r\n", "\n")
 	text = text.replaceAll("\r", "\n")
 
+	//WARNING: Extract to other function?
 	const raw_tags: Array<string> = []
 	if (text.match("---") != null) {
 		let split_tags = text.split("---");
@@ -34,55 +35,31 @@ export const loop_text = (text: string): string => {
 		}
 	}
 
-
-	//let lines: Array<string> = text.split("\n")
-	//console.log("length: ", lines.length)
-	//If you need lines
-	//lines.forEach((line, i) => {
-	//If you need letters
-	//for (let i = 0; i < line.length; i++) {
-	//	let letter = line[i];
-	//	console.log(letter);
-	//}
-	//	console.log(line)
-	//})
-
-
 	const bold_regex = /\*\*(.+?)\*\*/g
 	text = replace_text_with_element(text, bold_regex, bold, "**")
 
 	const italics_regex = /\*(.+?)\*/g
 	text = replace_text_with_element(text, italics_regex, italics, "*")
 
-	// you can use \r or \r\n instead of \n for other tests 
 	const list_regex = /\*((.+)(\n)){1,}.+/g;
 	text = replace_text_with_list(text, list_regex);
 
 	const link_regex = /(!?)(\[.+\])(\(.+\))/g;
 	text = replace_text_with_links(text, link_regex);
-	//const matches = [...text.matchAll(link_regex)].map(m => { return { full: m[0], im: m[1] == "!" ? true : false, title: m[2], url: m[3] } });
 
-	//const matches = [...text.matchAll(code_regex)].map(m => { return m[0] });
-	//matches.forEach(match => console.log(match))
 	const code_regex = /\`{3}([\s\S]*?)\`{3}/g;
 	text = replace_text_with_element(text, code_regex, code, "```");
 
-	//Doesnt get the lang detection like multiline
 	const singleline_code_regex = /\`{1}(.+)\`{1}/g;
 	text = replace_text_with_element(text, singleline_code_regex, code, "`");
 
-	//const p_regex = /^\s*(\w.+)/g;
-	//const p_regex = /^(?!\W)\S*\w.+/g
-	//const p_regex = /^(?!\W)\S*\w.+|^>.*/g
-	//const p_regex = /^\w.*\S/g
-	//const p_regex = /<span.+>(.*\s){1,6}<\/span>/g
-	// selects spans content(<span[^>]*>[\s\S]*?<\/span>)
-	const h1_regex = /^#(.*)/gm;
-	const h2_regex = /^##(.*)/gm;
 	const h3_regex = /^###(.*)/gm;
-
 	text = replace_text_with_element(text, h3_regex, h3, "###");
+
+	const h2_regex = /^##(.*)/gm;
 	text = replace_text_with_element(text, h2_regex, h2, "##");
+
+	const h1_regex = /^#(.*)/gm;
 	text = replace_text_with_element(text, h1_regex, h1, "#");
 
 	const quote_regex = /^>(.*)/gm;
@@ -90,18 +67,102 @@ export const loop_text = (text: string): string => {
 
 
 	text = peas(text);
-	console.log(text);
 	return text
 }
 
 console.log("Hello via Bun!");
-const my_args: any = Bun.argv.slice(2, Bun.argv.length);
 
-//const files_text: Array<string> = []
-for (let i = 0; i < my_args.length; i++) {
-	let text: string | unknown = await readFile(my_args[i])
-	if (typeof (text) == "string") {
-		console.log(loop_text(text))
-	}
-
+type args = { help: boolean, output_html: boolean, arguments_help: boolean, no_html_no_head: boolean };
+const my_args: string[] = Bun.argv.slice(2, Bun.argv.length);
+const arg_flags: args = {
+	help: my_args.includes("-h") ? true : false,
+	output_html: my_args.includes("-o") ? true : false,
+	arguments_help: my_args.includes("-a") ? true : false,
+	no_html_no_head: my_args.includes("-nh") ? true : false,
 }
+
+console.log(arg_flags);
+console.log(my_args);
+
+if (arg_flags.help == true) {
+	//TODO:halp
+	const help = "";
+	console.log(help);
+}
+if (arg_flags.arguments_help == true) {
+	const arguments_help =
+		"- o(outputs HTML to a file)" +
+		"- h(outputs help)" +
+		"- a(outputs arguments)" +
+		"- nh(outputs the conversions without html or head)";
+	console.log(arguments_help);
+}
+if (arg_flags.no_html_no_head == true) {
+	for (let i = 0; i < my_args.length; i++) {
+		const curr_arg = my_args[i];
+		if (curr_arg != undefined) {
+			let text: string | unknown = await readFile(curr_arg)
+			if (typeof (text) == "string") {
+				console.log(loop_text(text))
+			}
+		}
+
+	}
+}
+if (arg_flags.output_html == true) {
+	const body = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="./styles/styles.css" />
+    <link rel="icon" href="./literally_me.jpg" />
+    <title></title>
+  </head>
+  <body id="body">
+  </body>
+</html>
+`
+	for (let i = 0; i < my_args.length; i++) {
+		const curr_arg = my_args[i];
+		if (curr_arg != undefined) {
+			let text: string | unknown = await readFile(curr_arg)
+			if (typeof (text) == "string") {
+				const body_text = loop_text(text);
+				//TODO:Writefile creates one with the same name but .html if no output is provided
+				//Overwrites if one exist already
+			}
+		}
+
+	}
+}
+
+//Working main chunk
+//for (let i = 0; i < my_args.length; i++) {
+//	const curr_arg = my_args[i];
+//	if (curr_arg != undefined) {
+//		let text: string | unknown = await readFile(curr_arg)
+//		if (typeof (text) == "string") {
+//			console.log(loop_text(text))
+//		}
+//	}
+//
+//}
+
+
+
+//TODO:
+//<!DOCTYPE html>
+//<html lang="en">
+//  <head>
+//    <meta charset="UTF-8" />
+//    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+//    <link rel="stylesheet" type="text/css" href="./styles/styles.css" />
+//    <link rel="icon" href="./literally_me.jpg" />
+//    <title>Blogs</title>
+//  </head>
+//  <body id="body">
+//  ACA VA EL CONTENIDO
+//  </body>
+//</html>
