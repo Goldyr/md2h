@@ -86,6 +86,17 @@ export const peas = (text: string): string => {
 	return text;
 }
 
+export const tags = (text: string): { text: string, tags: Array<string | undefined> } => {
+	const raw_tags: Array<string> = []
+	if (text.match("---") != null) {
+		let split_tags = text.split("---");
+		if (split_tags[1] != undefined && split_tags[2] != undefined) {
+			raw_tags.push(split_tags[1]);
+			text = split_tags[2]
+		}
+	}
+	return { text: text, tags: raw_tags }
+}
 //let stupid_string = "```js\n" + "var foo = 'bar';\n" + "\n" + "function baz(s) {\n" + "        return foo + ':' + s;\n" + "}\n" + "```"
 //let stupid_string2 = "```rust\n" + "var foo = 'bar';\n" + "\n" + "function baz(s) {\n" + "        return foo + ':' + s;\n" + "}\n" + "```"
 //let stupid_string3 = "```" + "var foo = 'bar';\n" + "\n" + "function baz(s) {\n" + "        return foo + ':' + s;\n" + "}\n" + "```"
