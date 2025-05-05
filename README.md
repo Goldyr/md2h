@@ -1,10 +1,10 @@
 ---
 topic: code
-title: m2h instructions
-description: README for m2h
+title: md2h instructions
+description: README for md2h
 tags: ["code", "test"]
 ---
-# mark_to_html
+# MD2H
 This is a simple implementation that spams regex filters to fit my markdown writing preferences, I would recommend this alternative for most cases:
 https://github.com/markdown-it/markdown-it
 
@@ -12,12 +12,11 @@ https://github.com/markdown-it/markdown-it
 `bun run install`
 
 -h flag outputs to a file.html (creates it if it doesnt exist)
-`bun run index.ts file.md -o file.html`
+`bun run index.ts file.md -o`
 
-outputs the conversion to html to the console
+outputs the conversion to the console
 `bun run index.ts file.md`
 
-<!--TODO: Need to implement flags-->
 * flags == 
     -o (outputs HTML to a file) 
     -h (outputs help)
@@ -25,12 +24,12 @@ outputs the conversion to html to the console
     -nh (outputs the conversions without html or head)
 ## Conversion rules
 
-<!--WARNING: the tag implementation uses String.split right now-->
+<!--WARNING: the tag implementation uses String.split right now, it can produce errors-->
 ### Tags
 Tags are optional data of the file you can use them at the start of the file wrapping everything between triple '-' no commas  you can check the top of this file for a better example, this example doesnt use triple'-' to evade conflicts
 topic: code
-title: m2h instructions
-description: README for m2h
+title: md2h instructions
+description: README for md2h
 tags: ["code", "test"]
 
 ### Basics
