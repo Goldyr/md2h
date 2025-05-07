@@ -188,60 +188,6 @@ const main = async (): Promise<number> => {
 			}
 		}
 	}
-	//---
-	//if (arg_flags.output_html === true) {
-	//	for (let i = 0; i < my_args.length; i++) {
-	//		const curr_arg = my_args[i];
-	//		if (curr_arg != undefined) {
-	//			let text: string | unknown = await readFile(curr_arg)
-	//			const tags_text = tags(text);
-	//			text = tags_text.text;
-	//			if (typeof (text) == "string") {
-	//				const body_text = md_to_html(text);
-	//				let file_name = cleanFilename(curr_arg);
-	//				let full_html = "";
-	//				if (arg_flags.no_html_no_head === false) {
-	//					full_html = wrapInsideBody(body_text, tags_text.tags);
-	//				}
-	//				else {
-	//					full_html = body_text;
-	//				}
-	//				await Bun.write(`./ output / ${file_name}.html`, full_html);
-	//			}
-	//		}
-	//
-	//	}
-	//	return 0;
-	//}
-	//if (arg_flags.no_html_no_head === true) {
-	//	for (let i = 0; i < my_args.length; i++) {
-	//		const curr_arg = my_args[i];
-	//		if (curr_arg != undefined) {
-	//			let text: string | unknown = await readFile(curr_arg)
-	//			if (typeof (text) == "string") {
-	//				console.log(md_to_html(text))
-	//			}
-	//		}
-	//	}
-	//	return 0;
-	//}
-	////no args behavior
-	//else {
-	//	for (let i = 0; i < my_args.length; i++) {
-	//		const curr_arg = my_args[i];
-	//		if (curr_arg != undefined) {
-	//			let text: string | unknown = await readFile(curr_arg)
-	//			const tags_text = tags(text);
-	//			text = tags_text.text;
-	//			if (typeof (text) == "string") {
-	//				const body_text = md_to_html(text);
-	//				console.log(wrapInsideBody(body_text, tags_text.tags));
-	//			}
-	//		}
-	//
-	//	}
-	//	return 0;
-	//}
 	return 0;
 }
 
