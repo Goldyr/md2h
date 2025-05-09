@@ -9,7 +9,7 @@ const readFile = async (filepath: string): Promise<string | unknown> => {
 			const content = await file.text();
 			return content;
 		}
-		else throw Error(`${filepath}, not markdown`);
+		else throw Error(`${filepath} is of type: ${file.type}. not markdown`);
 	}
 	catch (err: unknown) {
 		console.error("Error reading file", err);
@@ -27,10 +27,6 @@ export const md_to_html = (text: string): string => {
 
 	const tags_text = tags(text);
 	text = tags_text.text;
-
-	if (tags_text.tags.length > 0) {
-		//TODO:TAGS	
-	}
 
 	const bold_regex = /\*\*(.+?)\*\*/g;
 	text = replace_text_with_element(text, bold_regex, bold, "**");
@@ -76,12 +72,15 @@ const cleanFilename = (full_path: string): string => {
 	return "default_name";
 };
 
-const wrapInsideBody = (body_text: string, tags: Array<string | undefined>): string => {
+const wrapInsideBody = (body_text: string, tags: Array<{ title: string, content: string }>): string => {
 	let meta_tags = ""
 	if (tags != undefined) {
 		tags.forEach(tag => {
-			if (tag !== "" && tag !== undefined) {
-				meta_tags += ("<meta " + tag + " />").replace("\r", "") + "\n";
+			if (tag.title === "title" && tag !== undefined) {
+				meta_tags += ("<title>" + tag.content + "</title>\n");
+			}
+			else if (tag.title !== "" && tag !== undefined) {
+				meta_tags += ("<meta " + `name = "${tag.title}" content = "${tag.content}"` + " />").replace("\r", "") + "\n";
 			}
 		});
 	}
@@ -108,16 +107,15 @@ const wrapInsideBody = (body_text: string, tags: Array<string | undefined>): str
 ${meta_tags}<meta name = "viewport" content = "width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" type = "text/css" href = "./styles/styles.css" />
 <link rel="icon" href = "./literally_me.jpg" />
-<title>Blogs </title>
 </head>
-< body id = "body" >
+<body id="body">
 ${body_text}
 </body>
 </html>`;
 
 };
 
-const main = async (): Promise<number> => {
+const md2h = async (): Promise<number> => {
 	type args = { help: boolean, output_html: boolean, arguments_help: boolean, no_html_no_head: boolean };
 	let my_args: string[] = Bun.argv.slice(2, Bun.argv.length);
 	const arg_flags: args = {
@@ -156,7 +154,6 @@ const main = async (): Promise<number> => {
 		console.log(arguments_help);
 		return 0;
 	}
-	//---temp
 	for (let i = 0; i < my_args.length; i++) {
 		const curr_arg = my_args[i];
 		if (curr_arg != undefined) {
@@ -191,6 +188,4 @@ const main = async (): Promise<number> => {
 	return 0;
 }
 
-if (await main() !== 0) {
-	console.log("something went wrong");
-}
+await md2h();

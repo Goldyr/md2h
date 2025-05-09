@@ -84,7 +84,9 @@ export const peas = (text: string): string => {
 	return text;
 }
 
-export const tags = (text: unknown): { text: string, tags: Array<string | undefined> } => {
+export const tags = (text: unknown): { text: string, tags: Object[] } => {
+	const info_tags: Array<Object> = []
+
 	const raw_tags: Array<string> = []
 	if (typeof (text) === 'string') {
 		if (text.match("---") != null) {
@@ -95,7 +97,24 @@ export const tags = (text: unknown): { text: string, tags: Array<string | undefi
 				text = split_bars[2].trimStart();
 			}
 		}
-		return { text: text as string, tags: raw_tags }
+
+		raw_tags.forEach((tag: string) => {
+			let splitted = tag.split(":");
+			if (splitted[0] === "tags" && splitted[1] !== undefined) {
+				let minitags = splitted[1].split(",");
+				minitags.forEach((mt) => info_tags.push({
+					title: "tags",
+					content: mt.replace("[", "").replace("]", "").replaceAll(`"`, "").trim()
+				}));
+			}
+			else if (splitted[1] !== undefined) {
+				info_tags.push({
+					title: splitted[0],
+					content: splitted[1].trim()
+				})
+			}
+		})
+		return { text: text as string, tags: info_tags }
 	}
 	return { text: "", tags: [] }
 }
