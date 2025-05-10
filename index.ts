@@ -85,6 +85,11 @@ const wrapInsideBody = (body_text: string, tags: Array<{ title: string, content:
 		});
 	}
 
+	if (!meta_tags.includes(`<title>`)) {
+		const default_title = "Blogs"
+		meta_tags += ("<title>" + default_title + "</title>\n")
+	}
+
 	//DEFAULT
 	//	return `<html lang="en">
 	//  <head>

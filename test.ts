@@ -84,8 +84,8 @@ export const peas = (text: string): string => {
 	return text;
 }
 
-export const tags = (text: unknown): { text: string, tags: Object[] } => {
-	const info_tags: Array<Object> = []
+export const tags = (text: unknown): { text: string, tags: Array<{ title: string, content: string }> } => {
+	const info_tags: Array<{ title: string, content: string }> = []
 
 	const raw_tags: Array<string> = []
 	if (typeof (text) === 'string') {
@@ -107,7 +107,7 @@ export const tags = (text: unknown): { text: string, tags: Object[] } => {
 					content: mt.replace("[", "").replace("]", "").replaceAll(`"`, "").trim()
 				}));
 			}
-			else if (splitted[1] !== undefined) {
+			else if (splitted[1] !== undefined && splitted[0] !== undefined) {
 				info_tags.push({
 					title: splitted[0],
 					content: splitted[1].trim()
