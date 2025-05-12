@@ -14,18 +14,23 @@ https://markdowntohtml.com/
 `bun run install`
 
 outputs the markdown converted to html:
+
 `bun run index.ts file.md`
 
 outputs the markdown converted to html to a file ./output/file.html:
+
 `bun run index.ts file.md -o`
 
 outputs all files to ./output:
+
 `bun run index.ts file_1.md file_2.md file_3.md -o`
 
 outputs just the basic structure directly converted without header
+
 `bun run index.ts file.md -nh`
 
 outputs the html without header to a .html file in ./output
+
 `bun run index.ts file.md -nh -o`
 
 * flags == 
