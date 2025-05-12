@@ -1,21 +1,31 @@
 ---
 topic: code
-title: md2h instructions
+title: md2h
 description: README for md2h
 tags: ["code", "test"]
 ---
 # MD2H
-This is a simple implementation that spams regex filters to fit my markdown writing preferences, I would recommend this alternative for most cases:
+This is a simple implementation that spams regex filters to fit my markdown writing preferences
+If you are trying to transform .md to .html I would recommend this alternative instead:
 https://github.com/markdown-it/markdown-it
 
 ## Installation and usage
 `bun run install`
 
--h flag outputs to a file.html (creates it if it doesnt exist)
+outputs the markdown converted to html:
+`bun run index.ts file.md`
+
+outputs the markdown converted to html to a file ./output/file.html:
 `bun run index.ts file.md -o`
 
-outputs the conversion to the console
-`bun run index.ts file.md`
+outputs all files to ./output:
+`bun run index.ts file_1.md file_2.md file_3.md -o`
+
+outputs just the basic structure directly converted without header
+`bun run index.ts file.md -nh`
+
+outputs the html without header to a .html file in ./output
+`bun run index.ts file.md -nh -o`
 
 * flags == 
     -o (outputs HTML to a file) 
@@ -24,7 +34,7 @@ outputs the conversion to the console
     -nh (outputs the conversions without html or head)
 ## Conversion rules
 
-<!--WARNING: the tag implementation uses String.split right now, it can produce errors-->
+<!--WARNING: the tag implementation uses String.split right now, it can produce errors mid paragraph-->
 ### Tags
 Tags are optional data of the file you can use them at the start of the file wrapping everything between triple '-' no commas  you can check the top of this file for a better example, this example doesnt use triple'-' to evade conflicts
 topic: code

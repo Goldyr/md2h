@@ -1,5 +1,5 @@
 {
-  "name": "mark_to_html",
+  "name": "md2h",
   "module": "index.ts",
   "type": "module",
   "private": true,

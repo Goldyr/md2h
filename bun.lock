@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "mark_to_html",
+      "name": "md2h",
       "devDependencies": {
         "@types/bun": "latest",
       },
