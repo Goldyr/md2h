@@ -6,8 +6,11 @@ tags: ["code", "test"]
 ---
 # MD2H
 This is a simple implementation that spams regex filters to fit my markdown writing preferences
+
 If you are trying to transform .md to .html I would recommend one of this alternatives instead:
+
 https://github.com/markdown-it/markdown-it
+
 https://markdowntohtml.com/
 
 ## Installation and usage
