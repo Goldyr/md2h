@@ -6,8 +6,9 @@ tags: ["code", "test"]
 ---
 # MD2H
 This is a simple implementation that spams regex filters to fit my markdown writing preferences
-If you are trying to transform .md to .html I would recommend this alternative instead:
+If you are trying to transform .md to .html I would recommend one of this alternatives instead:
 https://github.com/markdown-it/markdown-it
+https://markdowntohtml.com/
 
 ## Installation and usage
 `bun run install`
@@ -36,11 +37,7 @@ outputs the html without header to a .html file in ./output
 
 <!--WARNING: the tag implementation uses String.split right now, it can produce errors mid paragraph-->
 ### Tags
-Tags are optional data of the file you can use them at the start of the file wrapping everything between triple '-' no commas  you can check the top of this file for a better example, this example doesnt use triple'-' to evade conflicts
-topic: code
-title: md2h instructions
-description: README for md2h
-tags: ["code", "test"]
+Tags are optional data of the file that gets transformed into meta tags in the header, you put them wrapping everything between triple - you can check the top of this file for a better example.
 
 ### Basics
 Blockquotes
@@ -61,10 +58,10 @@ All headings are marked by # at the beginning of a line. h1 to h3 supported
 
 ### Links and images
 
-Links look like this [title](https://markdowntohtml.com)
+Links look like this [title](https://github.com/Goldyr/md2h)
 you can also use relative links [like this](./README.md).
 
-Images look like this ![alt text](https://placebear.com/300/300)
+Images look like this ![alt text](https://moonbench.xyz/assets/images/projects/ssd1306_1bit_art/discover.png)
 
 
 ### Lists 
