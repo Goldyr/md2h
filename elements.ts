@@ -1,13 +1,13 @@
 export const h1 = (content: string): string => {
-	return `<h1>${content.trimStart()}<h1/>`
+	return `<h1>${content.trimStart()}</h1>`
 }
 
 export const h2 = (content: string): string => {
-	return `<h2>${content.trimStart()}<h2/>`
+	return `<h2>${content.trimStart()}</h2>`
 }
 
 export const h3 = (content: string): string => {
-	return `<h3>${content.trimStart()}<h3/>`
+	return `<h3>${content.trimStart()}</h3>`
 }
 
 
