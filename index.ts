@@ -6,10 +6,10 @@ const wrapInsideBody = (body_text: string, tags: Array<{ title: string, content:
 	let meta_tags = "";
 
 	//Typical meta tags
-	meta_tags += `<meta charset="UTF-8" />\n`;
-	meta_tags += `<meta name="viewport" content="width=device-width, initial-scale=1.0" />\n`;
-	meta_tags += `<link rel="stylesheet" type="text/css" href="./styles.css" />\n`;
-	meta_tags += `<link rel="icon" href="./icon.jpg" />\n`;
+	meta_tags += `<meta charset="UTF-8">\n`;
+	meta_tags += `<meta name="viewport" content="width=device-width, initial-scale=1.0">\n`;
+	meta_tags += `<link rel="stylesheet" type="text/css" href="./styles.css">\n`;
+	meta_tags += `<link rel="icon" href="./icon.jpg">\n`;
 
 	if (tags !== undefined) {
 		tags.forEach(tag => {
@@ -17,17 +17,18 @@ const wrapInsideBody = (body_text: string, tags: Array<{ title: string, content:
 				meta_tags += ("<title>" + tag.content + "</title>\n");
 			}
 			else if (tag.title !== "" && tag !== undefined) {
-				meta_tags += ("<meta " + `name = "${tag.title}" content = "${tag.content}"` + " />").replace("\r", "") + "\n";
+				meta_tags += ("<meta " + `name = "${tag.title}" content = "${tag.content}"` + ">").replace("\r", "") + "\n";
 			}
 		});
 	}
 
 	if (!meta_tags.includes(`<title>`)) {
-		const default_title = "Blogs";
+		const default_title = "DEFAULT TITLE";
 		meta_tags += ("<title>" + default_title + "</title>\n");
 	}
 
-	return `<html lang="en">
+	return `<!DOCTYPE html>
+<html lang="en">
 <head>
 ${meta_tags}</head>
 <body id="body">

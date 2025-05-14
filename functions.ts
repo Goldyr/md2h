@@ -54,19 +54,41 @@ export const span_contents = (text: string): Array<string | undefined> => {
 	return matches;
 }
 
+export const href_contents = (text: string): Array<string | undefined> => {
+	const spans_content = /(<a[^>]*>[\s\S]*?<\/a>)/gm
+	const matches = [...text.matchAll(spans_content)].map(m => m[1]);
+	return matches;
+}
+
 //Couldnt negate the span_contents inside regex so I extract them and negate them in js
 export const peas = (text: string): string => {
 	const regex = /^\s*(\w.*\S)/gm;
 	//Array of results from every text.matchAll(regex);
 	let matches = [...text.matchAll(regex)].map(m => m[1]);
 	const span_matches = span_contents(text);
-	const filtered_matches = matches.filter(match => {
+	const href_matches = href_contents(text);
+
+	//NOTE: I can probably put these two filters in the same lines, just fixing it rn
+	let filtered_matches = matches.filter(match => {
 		for (let i = 0; i < span_matches.length; i++) {
 			const span = span_matches[i];
 			if (span == undefined || match == undefined) {
-				throw Error("err");
+				throw Error("functions.ts filtering span and hrefs out of text");
 			}
 			else if (span.includes(match)) {
+				return false;
+			}
+		}
+		return true
+	})
+
+	filtered_matches = matches.filter(match => {
+		for (let i = 0; i < href_matches.length; i++) {
+			const href = href_matches[i];
+			if (match == undefined || href == undefined) {
+				throw Error("functions.ts filtering span and hrefs out of text");
+			}
+			else if (href.includes(match)) {
 				return false;
 			}
 		}
