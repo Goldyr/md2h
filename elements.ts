@@ -33,6 +33,7 @@ export const italics = (content: string) => {
 export const code = (content: string) => {
 	//returns text before the first \n, detects lang?
 	const lang = (content.substring(0, content.search("\n")))
+	content = content.replaceAll("`", "");
 	let known_langs = new Set(["c", "cplus", "java", "rust", "java", "lua", "js", "ts", "c#", "html", "css"])
 	if (known_langs.has(lang)) {
 		return `<span id="code" class="lang-${lang}">${content}</span>`

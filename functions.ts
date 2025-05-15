@@ -176,7 +176,7 @@ export const md_to_html = (text: string): string => {
 	const list_regex = /\*((.+)(\n)){1,}.+/g;
 	text = replace_text_with_list(text, list_regex);
 
-	const link_regex = /(!?)(\[.+\])(\(.+\))/g;
+	const link_regex = /(!?)(\[.+?\])(\(.+?\))/g;
 	text = replace_text_with_links(text, link_regex);
 
 	const code_regex = /\`{3}([\s\S]*?)\`{3}/g;
