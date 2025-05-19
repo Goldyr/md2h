@@ -8,8 +8,14 @@ const wrapInsideBody = (body_text: string, tags: Array<{ title: string, content:
 	//Typical meta tags
 	meta_tags += `<meta charset="UTF-8">\n`;
 	meta_tags += `<meta name="viewport" content="width=device-width, initial-scale=1.0">\n`;
-	meta_tags += `<link rel="stylesheet" type="text/css" href="./styles.css">\n`;
-	meta_tags += `<link rel="icon" href="./icon.jpg">\n`;
+	//meta_tags += `<link rel="stylesheet" type="text/css" href="./styles.css">\n`;
+	//meta_tags += `<link rel="icon" href="./icon.jpg">\n`;
+	//NOTE:PERSONALIZED
+	meta_tags += `<link rel="stylesheet" type="text/css" href="../styles/styles.css">\n`;
+	meta_tags += `<link rel="stylesheet" type="text/css" href="../styles/blogs_styles.css">\n`;
+	meta_tags += `<link rel="icon" type="image/x-icon" href="../literally_me.jpg">\n`;
+	meta_tags += `<link type="font" href="./ARCADECLASSIC.woff2">\n`;
+	meta_tags += `<link type="font" href="./iosevka-aile-bold.woff2">\n`;
 
 	if (tags !== undefined) {
 		tags.forEach(tag => {
@@ -32,8 +38,30 @@ const wrapInsideBody = (body_text: string, tags: Array<{ title: string, content:
 <head>
 ${meta_tags}</head>
 <body id="body">
+<div class="main">
+<table class="table">
+<tbody class="table_nav">
+<tr>
+<td><a href="../index.html">home</a></td>
+<td><a id="blogs" href="../blogs.html">blogs</a></td>
+<td>
+<a href="../sources.html">sources</a>
+</td>
+</tr>
+</tbody>
+</table>
+<table class="">
+<tbody>
+<tr>
+<td>
 ${body_text}
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </body>
+<script src="../src/blog_data.js" ></script>
 </html>`;
 };
 
