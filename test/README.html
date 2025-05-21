@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="./styles.css">
+<link rel="icon" href="./icon.jpg">
+<meta name = "topic" content = "code">
+<title>md2h</title>
+<meta name = "description" content = "README for md2h">
+<meta name = "tags" content = "code">
+<meta name = "tags" content = "test">
+</head>
+<body id="body">
+<h1>MD2H</h1>
+<p> This is a simple implementation that spams regex filters to fit my markdown writing preferences </p>
+
+<p> If you are trying to transform .md to .html I would recommend one of this alternatives instead: </p>
+
+<p> <p> https://github.com/markdown-it/markdown-it </p> </p>
+
+<p> <p> https://markdowntohtml.com/ </p> </p>
+
+<h2>Installation and usage</h2>
+<p> requires bun </p>
+<span id="code">bun run install</span>
+
+<p> outputs the markdown converted to html: </p>
+
+<span id="code">bun run index.ts file.md</span>
+
+<p> outputs the markdown converted to html to a file ./output/file.html: </p>
+
+<span id="code">bun run index.ts file.md -o</span>
+
+<p> outputs the markdown converted to html to a file ./output/file.html and creates a json file ./output/html_data.json that contains the tags: </p>
+
+<span id="code">bun run index.ts file.md -o -j</span>
+
+<p> outputs all files to ./output: </p>
+
+<span id="code">bun run index.ts file_1.md file_2.md file_3.md -o</span>
+
+<p> outputs just the basic structure directly converted without header </p>
+
+<span id="code">bun run index.ts file.md -nh</span>
+
+<p> outputs the html without header to a .html file in ./output </p>
+
+<span id="code">bun run index.ts file.md -nh -o</span>
+
+<ul>
+	<li> flags == </li> 
+	<li>    -o (outputs HTML to a file) </li> 
+	<li>    -h (outputs help)</li> 
+	<li>    -a (outputs arguments)</li> 
+	<li>    -nh (outputs the conversions without html or head)</li> 
+	<li>## Conversion rules</li> 
+</ul>
+
+<!--WARNING: the tag implementation uses String.split right now, it can produce errors mid paragraph-->
+<h3>Tags</h3>
+<p> Tags are optional data of the file that gets transformed into meta tags in the header, you put them wrapping everything between triple - you can check the top of this file for a better example. </p>
+
+<h3>Basics</h3>
+<p> Blockquotes </p>
+<blockquote><p>Basic Formatting</p></blockquote>
+
+<p> Bold </p>
+<strong>Bold</strong>
+
+<p> Emphasized </p> 
+<em>Emphasized</em>
+
+<h3>Headings</h3>
+
+<p> All headings are marked by # at the beginning of a line. h1 to h3 supported </p>
+<h1>H1heading</h1>
+<h2>H2heading</h2>
+<h3>H3heading</h3>
+
+<h3>Links and images</h3>
+
+<p> Links look like this <a href="https://github.com/Goldyr/md2h">title</a> </p>
+<p> you can also use relative links <a href="./README.md">like this</a>. </p>
+
+<p> Images look like this <img src="https://moonbench.xyz/assets/images/projects/ssd1306_1bit_art/discover.png" alt="alt text"> </p>
+
+
+<h3>Lists </h3>
+<p> List are made by using asterisks and spaces: </p>
+
+<p> Eveything here is just <ul><li>item<li><li>item2<li>...<ul> </p>
+
+<ul>
+	<li> One item</li> 
+	<li>  1. SubItem</li> 
+	<li>  2. Second SubItem</li> 
+	<li>     tabs tabs</li> 
+	<li>     tabs tabs tabs</li> 
+</ul>
+
+<ul>
+	<li> Second item</li> 
+	<li> One item</li> 
+	<li> Another item</li> 
+	<li>   A sub-item</li> 
+	<li>     A deeper item</li> 
+	<li>   Back in sub-item land</li> 
+	<li> Second item</li> 
+</ul>
+
+
+<h3>Code</h3>
+
+<p> Inline code uses <span id="code">backticks</span>. </p> 
+<p> Code blocks are surrounded by three backticks triple'`' and checks the first word for programming languages </p>
+
+<p> Right know the implementation surrounds them in <span id="code" class="lang-LANGUAGE">CONTENT</span> or <span id="code">CONTENT</span> if it doesnt detect anything. Example: </p>
+<span id="code" class="lang-js">js
+<p> var foo = 'bar'; </p>
+
+<p> function baz(s) { </p>
+   <p> return foo + ':' + s; </p>
+}
+</span>
+
+<p> You might need to change it depending what you are doing with the html later. </p>
+
+<h2>Extra sources</h2>
+<h3>\r \n \r\n</h3>
+<p> some OS use \r some \n some \r\n </p>
+<p> https://stackoverflow.com/questions/15433188/what-is-the-difference-between-r-n-r-and-n </p>
+
+<h3>regex</h3>
+<p> Regex testing </p>
+<p> https://regex101.com/ </p>
+
+<h3>Better alternatives</h3>
+https://github.com/markdown-it/markdown-it
+
+https://markdowntohtml.com/
+
+
+</body>
+</html>
