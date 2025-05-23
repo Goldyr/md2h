@@ -14,6 +14,7 @@ https://github.com/markdown-it/markdown-it
 https://markdowntohtml.com/
 
 ## Installation and usage
+requires bun
 `bun run install`
 
 outputs the markdown converted to html:
@@ -23,6 +24,10 @@ outputs the markdown converted to html:
 outputs the markdown converted to html to a file ./output/file.html:
 
 `bun run index.ts file.md -o`
+
+outputs the markdown converted to html to a file ./output/file.html and creates a json file ./output/html_data.json that contains the tags:
+
+`bun run index.ts file.md -o -j`
 
 outputs all files to ./output:
 
@@ -97,7 +102,7 @@ Eveything here is just <ul><li>item<li><li>item2<li>...<ul>
 Inline code uses `backticks`. 
 Code blocks are surrounded by three backticks triple'`' and checks the first word for programming languages
 
-Right know the implementation surrounds them in <span id="code" class="lang-LANGUAGE">CONTENT</span> or<span id="code">CONTENT</span> if it doesnt detect anything. Example:
+Right know the implementation surrounds them in <span id="code" class="lang-LANGUAGE">CONTENT</span> or <span id="code">CONTENT</span> if it doesnt detect anything. Example:
 ```js
 var foo = 'bar';
 
@@ -113,8 +118,12 @@ You might need to change it depending what you are doing with the html later.
 some OS use \r some \n some \r\n
 https://stackoverflow.com/questions/15433188/what-is-the-difference-between-r-n-r-and-n
 
-
 ### regex
-Using RegExp as object seems like a bad idea, preferably I would be using mystring.split(my_regex) but javascript seems to fuck around with the regex literal
-mystring.matchAll(myregex).forEach(single_regex_result.forEach(actual_result => console.log(result))) is the result
+Regex testing
 https://regex101.com/
+
+### Better alternatives
+https://github.com/markdown-it/markdown-it
+
+https://markdowntohtml.com/
+
