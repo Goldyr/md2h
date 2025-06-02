@@ -14,8 +14,10 @@ const setup_headers = (body_text: string, tags: Array<{ title: string, content: 
 	meta_tags += `<link rel="stylesheet" type="text/css" href="../styles/styles.css">\n`;
 	meta_tags += `<link rel="stylesheet" type="text/css" href="../styles/blogs_styles.css">\n`;
 	meta_tags += `<link rel="icon" type="image/x-icon" href="../literally_me.jpg">\n`;
-	meta_tags += `<link type="font" href="./ARCADECLASSIC.woff2">\n`;
-	meta_tags += `<link type="font" href="./iosevka-aile-bold.woff2">\n`;
+	// meta_tags += `<link type="font" href="./ARCADECLASSIC.woff2">\n`;
+	// meta_tags += `<link type="font" href="./iosevka-aile-bold.woff2">\n`;
+	meta_tags += `<link rel="prefetch" href="../ARCADECLASSIC.woff2" as="font" type="woff2"/>\n`;
+	meta_tags += `<link rel="prefetch" href="../iosevka-aile-bold.woff2" as="font" type="woff2"/>\n`;
 
 	if (tags !== undefined) {
 		tags.forEach(tag => {
@@ -41,10 +43,10 @@ ${meta_tags}</head>
 <table class="table">
 <tbody class="table_nav">
 <tr>
-<td><a href="../index.html">home</a></td>
-<td><a id="blogs" href="../blogs.html">blogs</a></td>
+<td><a class="nav_item" href="../index.html">home</a></td>
+<td><a class="nav_item" id="blogs" href="../blogs.html">blogs</a></td>
 <td>
-<a href="../sources.html">sources</a>
+<a class="nav_item" href="../sources.html">sources</a>
 </td>
 </tr>
 </tbody>
@@ -60,7 +62,6 @@ ${body_text}
 </table>
 </div>
 </body>
-<script src="../src/blog_data.js" ></script>
 </html>`;
 };
 
