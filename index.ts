@@ -96,6 +96,7 @@ const md2h = async (): Promise<number> => {
 			if (text !== undefined) {
 				const tags_text = tags(text);
 				text = tags_text.text;
+
 				const body_text = md_to_html(text);
 				if (arg_flags.output_html === true) {
 					let html_to_write = "";

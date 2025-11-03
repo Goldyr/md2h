@@ -1,4 +1,4 @@
-import { list, link, img, p, bold, italics, code, h1, h2, h3, quote } from "./elements.ts"
+import { list, link, img, iframe, p, bold, italics, code, h1, h2, h3, quote } from "./elements.ts"
 
 export type BlogData = {
 	title?: string,
@@ -51,6 +51,22 @@ export const replace_text_with_links = (text: string, regex: RegExp): string => 
 			else {
 				text = text.replace(match.full, link(match.title, match.url))
 			}
+		}
+	})
+	return text;
+}
+
+export const replace_text_with_iframes = (text: string, regex: RegExp): string => {
+	const matches = [...text.matchAll(regex)].map(m => {
+		return {
+			full: m[0],
+			title: m[1],
+			src: m[2]
+		}
+	});
+	matches.forEach(match => {
+		if (typeof match.title === 'string' && typeof match.src === 'string') {
+			text = text.replace(match.full, iframe(match.title, match.src))
 		}
 	})
 	return text;
@@ -174,7 +190,7 @@ export const tags = (text: string): { text: string, tags: Array<{ title: string,
 		return { text: text as string, tags: info_tags, json: json_tags }
 	}
 	else {
-		return { text: "", tags: [], json: undefined }
+		return { text: text, tags: [], json: undefined }
 	}
 }
 
@@ -203,7 +219,6 @@ export const md_to_html = (text: string): string => {
 
 	text = text.replaceAll("\r\n", "\n");
 	text = text.replaceAll("\r", "\n");
-
 	//const tags_text = tags(text);
 	//text = tags_text.text;
 
@@ -218,6 +233,9 @@ export const md_to_html = (text: string): string => {
 
 	const link_regex = /(!?)(\[.+?\])(\(.+?\))/g;
 	text = replace_text_with_links(text, link_regex);
+
+	const iframe_regex = /(\[.+?\])(\[.+?\])/g;
+	text = replace_text_with_iframes(text, iframe_regex);
 
 	const code_regex = /\`{3}([\s\S]*?)\`{3}/g;
 	text = replace_text_with_element(text, code_regex, code, "```");

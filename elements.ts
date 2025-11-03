@@ -52,6 +52,14 @@ export const img = (title: string, link: string) => {
 	return `<img src=${link.replace("(", `"`).replace(")", `"`)} alt=${title.replace("[", `"`).replace("]", `"`)}>`
 }
 
+
+//iframe
+//[title_iframe][iframe.mp4]
+export const iframe = (title: string, link: string) => {
+	return `<iframe src=${link.replace("[", `"`).replace("]", `"`)} title=${title.replace("[", `"`).replace("]", `"`)} allowfullscreen></iframe>`
+	// return `<video src=${link.replace("[", `"`).replace("]", `"`)} alt=${title.replace("[", `"`).replace("]", `"`)} controls>`
+}
+
 export const quote = (content: string) => {
 	return `<blockquote><p>${content.trimStart()}</p></blockquote>`
 }
